@@ -1,0 +1,15 @@
+appId: com.example.aibrowser
+productName: AI Browser
+files:
+  - apps/desktop/dist/**
+  - packages/**
+directories:
+  output: dist
+win:
+  target: nsis
+mac:
+  target: dmg
+publish:
+  provider: generic
+  url: https://example.com/updates/
+
