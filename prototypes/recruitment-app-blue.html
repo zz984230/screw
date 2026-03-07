@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hi就业 - 智能招聘平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #F0F4F8;
+        }
+        
+        .ios-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #F0F4F8 0%, #E8F0F8 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .blue-card {
+            background: linear-gradient(145deg, #FFFFFF 0%, #F0F7FF 100%);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            box-shadow: 0 2px 12px rgba(59, 130, 246, 0.1);
+        }
+        
+        .ai-card {
+            background: linear-gradient(145deg, #EBF4FF 0%, #DBEAFE 100%);
+            border: 1px solid rgba(96, 165, 250, 0.25);
+        }
+        
+        .flow-node {
+            background: linear-gradient(145deg, #EFF6FF 0%, #DBEAFE 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .diamond-tag {
+            transform: rotate(45deg);
+            background: linear-gradient(145deg, #EBF4FF 0%, #BFDBFE 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .diamond-text {
+            transform: rotate(-45deg);
+        }
+        
+        .header-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .section-title {
+            color: #1E40AF;
+        }
+        
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid #60A5FA;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .primary-btn {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+        
+        .icon-gradient {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="ios-container">
+        <!-- iOS Status Bar -->
+        <div class="flex justify-between items-center px-6 pt-2 pb-1 text-xs font-medium text-slate-700">
+            <span>9:41</span>
+            <div class="flex items-center gap-1">
+                <i class="fas fa-signal text-xs"></i>
+                <i class="fas fa-wifi text-xs"></i>
+                <i class="fas fa-battery-full text-xs"></i>
+            </div>
+        </div>
+        
+        <!-- Header -->
+        <div class="header-blur sticky top-0 z-50 px-4 py-3 border-b border-blue-100">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">Hi</span>
+                    </div>
+                    <span class="text-lg font-semibold text-blue-900">就业</span>
+                </div>
+                <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-blue-50 transition-colors">
+                    <i class="fas fa-bell text-blue-700 text-sm"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="px-4 pb-24">
+            <!-- Top Business Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-5">
+                <div class="blue-card rounded-xl p-3 text-center">
+                    <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-blue-50 flex items-center justify-center">
+                        <i class="fas fa-user-plus text-blue-600 text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium text-blue-900">招聘</span>
+                </div>
+                <div class="blue-card rounded-xl p-3 text-center">
+                    <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-blue-50 flex items-center justify-center">
+                        <i class="fas fa-briefcase text-blue-600 text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium text-blue-900">用工</span>
+                </div>
+                <div class="blue-card rounded-xl p-3 text-center">
+                    <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-blue-50 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-blue-600 text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium text-blue-900">培训</span>
+                </div>
+            </div>
+            
+            <!-- Core Flow -->
+            <div class="mb-5">
+                <h3 class="section-title text-sm font-semibold mb-3 ml-1">核心流程</h3>
+                <div class="flex items-center justify-between gap-1 overflow-x-auto pb-2">
+                    <div class="flex-shrink-0 flow-node rounded-full px-3 py-2 text-center min-w-[60px] relative flow-arrow">
+                        <span class="text-xs font-medium text-blue-900">招聘</span>
+                    </div>
+                    <div class="flex-shrink-0 flow-node rounded-full px-3 py-2 text-center min-w-[60px] relative flow-arrow">
+                        <span class="text-xs font-medium text-blue-900">考试</span>
+                    </div>
+                    <div class="flex-shrink-0 flow-node rounded-full px-3 py-2 text-center min-w-[60px] relative flow-arrow">
+                        <span class="text-xs font-medium text-blue-900">猎头</span>
+                    </div>
+                    <div class="flex-shrink-0 flow-node rounded-full px-3 py-2 text-center min-w-[60px] relative flow-arrow">
+                        <span class="text-xs font-medium text-blue-900">背调</span>
+                    </div>
+                    <div class="flex-shrink-0 flow-node rounded-full px-3 py-2 text-center min-w-[60px]">
+                        <span class="text-xs font-medium text-blue-900">测评</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Features -->
+            <div class="mb-5">
+                <div class="flex items-center gap-2 mb-3 ml-1">
+                    <i class="fas fa-sparkles text-blue-500 text-sm"></i>
+                    <h3 class="section-title text-sm font-semibold">AI智能服务</h3>
+                </div>
+                <div class="space-y-3">
+                    <div class="ai-card rounded-xl p-4 flex items-center gap-4 animate-float" style="animation-delay: 0s;">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-200">
+                            <i class="fas fa-tree text-white text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-blue-900">许愿树</h4>
+                            <p class="text-xs text-blue-600/70 mt-0.5">说出你的求职心愿</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-blue-400 text-xs"></i>
+                    </div>
+                    
+                    <div class="ai-card rounded-xl p-4 flex items-center gap-4 animate-float" style="animation-delay: 0.5s;">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center shadow-lg shadow-blue-200">
+                            <i class="fas fa-file-medical text-white text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-blue-900">AI简历问诊</h4>
+                            <p class="text-xs text-blue-600/70 mt-0.5">智能诊断简历问题</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-blue-400 text-xs"></i>
+                    </div>
+                    
+                    <div class="ai-card rounded-xl p-4 flex items-center gap-4 animate-float" style="animation-delay: 1s;">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-200">
+                            <i class="fas fa-search text-white text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-blue-900">AI读岗</h4>
+                            <p class="text-xs text-blue-600/70 mt-0.5">智能解读岗位要求</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-blue-400 text-xs"></i>
+                    </div>
+                    
+                    <div class="ai-card rounded-xl p-4 flex items-center gap-4 animate-float" style="animation-delay: 1.5s;">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-200">
+                            <i class="fas fa-dumbbell text-white text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-blue-900">AI精练</h4>
+                            <p class="text-xs text-blue-600/70 mt-0.5">针对性提升技能</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-blue-400 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recruitment Types -->
+            <div class="mb-5">
+                <h3 class="section-title text-sm font-semibold mb-3 ml-1">招聘类型</h3>
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="flex flex-col items-center">
+                        <div class="diamond-tag w-14 h-14 flex items-center justify-center mb-2 shadow-md shadow-blue-100">
+                            <span class="diamond-text text-xs font-medium text-blue-900 whitespace-nowrap">社会招聘</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="diamond-tag w-14 h-14 flex items-center justify-center mb-2 shadow-md shadow-blue-100">
+                            <span class="diamond-text text-xs font-medium text-blue-900 whitespace-nowrap">本市校招</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="diamond-tag w-14 h-14 flex items-center justify-center mb-2 shadow-md shadow-blue-100">
+                            <span class="diamond-text text-xs font-medium text-blue-900 whitespace-nowrap">省内校招</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="diamond-tag w-14 h-14 flex items-center justify-center mb-2 shadow-md shadow-blue-100">
+                            <span class="diamond-text text-xs font-medium text-blue-900 whitespace-nowrap">X就业</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Service Types -->
+            <div class="mb-5">
+                <h3 class="section-title text-sm font-semibold mb-3 ml-1">企业服务端</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="blue-card rounded-xl p-3 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                            <i class="fas fa-user-tie text-blue-600"></i>
+                        </div>
+                        <span class="text-xs font-medium text-blue-900">猎头服务</span>
+                    </div>
+                    <div class="blue-card rounded-xl p-3 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                            <i class="fas fa-clipboard-check text-blue-600"></i>
+                        </div>
+                        <span class="text-xs font-medium text-blue-900">背景调查</span>
+                    </div>
+                    <div class="blue-card rounded-xl p-3 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                            <i class="fas fa-chart-line text-blue-600"></i>
+                        </div>
+                        <span class="text-xs font-medium text-blue-900">人才测评</span>
+                    </div>
+                    <div class="blue-card rounded-xl p-3 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                            <i class="fas fa-handshake text-blue-600"></i>
+                        </div>
+                        <span class="text-xs font-medium text-blue-900">委托招聘</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Tab Bar -->
+        <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[375px] bg-white/95 backdrop-blur-xl border-t border-blue-100 px-6 py-2 pb-6">
+            <div class="flex justify-around items-center">
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <i class="fas fa-home text-blue-600 text-lg"></i>
+                    <span class="text-[10px] text-blue-600 font-medium">首页</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <i class="fas fa-compass text-blue-300 text-lg"></i>
+                    <span class="text-[10px] text-blue-300 font-medium">发现</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <i class="fas fa-comment-dots text-blue-300 text-lg"></i>
+                    <span class="text-[10px] text-blue-300 font-medium">消息</span>
+                </div>
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <i class="fas fa-user text-blue-300 text-lg"></i>
+                    <span class="text-[10px] text-blue-300 font-medium">我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
