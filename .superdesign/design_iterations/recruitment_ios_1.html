@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi就业 - iOS招聘App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* iOS System Font Stack */
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* iOS Continuous Rounded Corners */
+        .ios-rounded {
+            border-radius: 12px;
+        }
+        .ios-rounded-lg {
+            border-radius: 16px;
+        }
+        .ios-rounded-sm {
+            border-radius: 8px;
+        }
+        
+        /* iOS Shadow */
+        .ios-shadow {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        /* iOS Glass Effect */
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        /* iOS Hairline Border */
+        .ios-hairline {
+            height: 0.5px;
+            background-color: #C6C6C8;
+        }
+        
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* iOS Colors */
+        .bg-ios-grouped { background-color: #F2F2F7; }
+        .bg-ios-card { background-color: #FFFFFF; }
+        .text-ios-primary { color: #000000; }
+        .text-ios-secondary { color: rgba(60, 60, 67, 0.6); }
+        .text-ios-tertiary { color: #8E8E93; }
+        .text-ios-blue { color: #007AFF; }
+        .bg-ios-blue { background-color: #007AFF; }
+        .border-ios-separator { border-color: #C6C6C8; }
+        
+        /* Phone Frame */
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            margin: 0 auto;
+            background: #F2F2F7;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Status Bar Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 11px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 100;
+        }
+        
+        /* Status Bar Time */
+        .status-time {
+            position: absolute;
+            top: 14px;
+            left: 27px;
+            font-size: 17px;
+            font-weight: 600;
+            color: #000000;
+            z-index: 99;
+        }
+        
+        /* Status Bar Icons */
+        .status-icons {
+            position: absolute;
+            top: 14px;
+            right: 27px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 99;
+        }
+        
+        /* Tab Bar Blur */
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 83px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 34px;
+        }
+        
+        /* Tab Bar Item */
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        
+        .tab-item.active .tab-icon,
+        .tab-item.active .tab-label {
+            color: #007AFF;
+        }
+        
+        /* Segmented Control */
+        .segmented-control {
+            background: rgba(120, 120, 128, 0.16);
+            padding: 2px;
+            border-radius: 9px;
+            display: flex;
+        }
+        
+        .segment {
+            flex: 1;
+            text-align: center;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #000000;
+            border-radius: 7px;
+            transition: all 0.2s ease;
+        }
+        
+        .segment.active {
+            background: #FFFFFF;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* AI Feature Card Gradient */
+        .ai-card-1 {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+        }
+        .ai-card-2 {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
+        }
+        .ai-card-3 {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+        }
+        .ai-card-4 {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+        }
+        
+        /* Pill Button */
+        .pill-nav {
+            background: #FFFFFF;
+            border: 0.5px solid #E5E5EA;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #000000;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+        
+        .pill-nav:active {
+            background: #F2F2F7;
+            transform: scale(0.98);
+        }
+        
+        /* Service Item */
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .service-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-8">
+    
+    <!-- iPhone Frame -->
+    <div class="phone-frame ios-rounded-lg">
+        
+        <!-- Status Bar -->
+        <div class="dynamic-island"></div>
+        <div class="status-time">9:41</div>
+        <div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+                <path d="M1 4C1 3.44772 1.44772 3 2 3H3C3.55228 3 4 3.44772 4 4V10C4 10.5523 3.55228 11 3 11H2C1.44772 11 1 10.5523 1 10V4Z" fill="black"/>
+                <path d="M6 2.5C6 1.94772 6.44772 1.5 7 1.5H8C8.55228 1.5 9 1.94772 9 2.5V10C9 10.5523 8.55228 11 8 11H7C6.44772 11 6 10.5523 6 10V2.5Z" fill="black"/>
+                <path d="M11 1C11 0.447715 11.4477 0 12 0H13C13.5523 0 14 0.447715 14 1V10C14 10.5523 13.5523 11 13 11H12C11.4477 11 11 10.5523 11 10V1Z" fill="black"/>
+                <path d="M16 3.5C16 2.94772 16.4477 2.5 17 2.5H17.5C17.7761 2.5 18 2.72386 18 3V10C18 10.5523 17.5523 11 17 11H16.5C16.2239 11 16 10.7761 16 10.5V3.5Z" fill="black"/>
+            </svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M1 3C1 1.34315 2.34315 0 4 0H12C13.6569 0 15 1.34315 15 3V9C15 10.6569 13.6569 12 12 12H4C2.34315 12 1 10.6569 1 9V3ZM4 1C2.89543 1 2 1.89543 2 3V9C2 10.1046 2.89543 11 4 11H12C13.1046 11 14 10.1046 14 9V3C14 1.89543 13.1046 1 12 1H4Z" fill="black"/>
+                <rect x="3" y="3" width="10" height="6" rx="1" fill="black"/>
+            </svg>
+        </div>
+        
+        <!-- Navigation Bar -->
+        <div class="absolute top-[47px] left-0 right-0 h-[44px] flex items-center justify-between px-4">
+            <div class="w-8"></div>
+            <div class="segmented-control w-[160px]">
+                <div class="segment active">招聘</div>
+                <div class="segment">用工</div>
+            </div>
+            <div class="w-8 flex justify-end">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="2" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21L16.65 16.65"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="absolute top-[91px] left-0 right-0 bottom-[83px] overflow-y-auto no-scrollbar">
+            
+            <!-- Horizontal Navigation Pills -->
+            <div class="px-5 py-4">
+                <div class="flex gap-3 overflow-x-auto no-scrollbar">
+                    <button class="pill-nav bg-ios-blue text-white border-none">招聘</button>
+                    <button class="pill-nav">考试</button>
+                    <button class="pill-nav">猎头</button>
+                    <button class="pill-nav">背调</button>
+                    <button class="pill-nav">测评</button>
+                </div>
+            </div>
+            
+            <!-- AI Features Grid -->
+            <div class="px-5 pb-4">
+                <h2 class="text-[20px] font-semibold text-ios-primary mb-4">AI智能服务</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- AI Card 1 -->
+                    <div class="ai-card-1 ios-rounded-lg p-4 ios-shadow h-[100px] flex flex-col justify-between cursor-pointer active:scale-[0.98] transition-transform">
+                        <div class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-xl">🌳</div>
+                        <div>
+                            <div class="text-[15px] font-semibold text-ios-primary">许愿树</div>
+                            <div class="text-[12px] text-ios-secondary mt-0.5">AI匹配理想职位</div>
+                        </div>
+                    </div>
+                    <!-- AI Card 2 -->
+                    <div class="ai-card-2 ios-rounded-lg p-4 ios-shadow h-[100px] flex flex-col justify-between cursor-pointer active:scale-[0.98] transition-transform">
+                        <div class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-xl">📄</div>
+                        <div>
+                            <div class="text-[15px] font-semibold text-ios-primary">AI简历问诊</div>
+                            <div class="text-[12px] text-ios-secondary mt-0.5">专业诊断建议</div>
+                        </div>
+                    </div>
+                    <!-- AI Card 3 -->
+                    <div class="ai-card-3 ios-rounded-lg p-4 ios-shadow h-[100px] flex flex-col justify-between cursor-pointer active:scale-[0.98] transition-transform">
+                        <div class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-xl">🔍</div>
+                        <div>
+                            <div class="text-[15px] font-semibold text-ios-primary">AI读岗</div>
+                            <div class="text-[12px] text-ios-secondary mt-0.5">智能解析JD</div>
+                        </div>
+                    </div>
+                    <!-- AI Card 4 -->
+                    <div class="ai-card-4 ios-rounded-lg p-4 ios-shadow h-[100px] flex flex-col justify-between cursor-pointer active:scale-[0.98] transition-transform">
+                        <div class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-xl">✨</div>
+                        <div>
+                            <div class="text-[15px] font-semibold text-ios-primary">AI精修</div>
+                            <div class="text-[12px] text-ios-secondary mt-0.5">简历优化升级</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recruitment Types -->
+            <div class="px-5 pb-4">
+                <h2 class="text-[20px] font-semibold text-ios-primary mb-4">招聘类型</h2>
+                <div class="bg-ios-card ios-rounded-lg ios-shadow">
+                    <div class="flex">
+                        <div class="flex-1 p-4 flex flex-col items-center justify-center gap-2 border-r border-[#C6C6C8]/50 cursor-pointer active:bg-gray-50 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-[#007AFF]/10 flex items-center justify-center text-xl">💼</div>
+                            <span class="text-[15px] font-medium text-ios-primary">社会招聘</span>
+                        </div>
+                        <div class="flex-1 p-4 flex flex-col items-center justify-center gap-2 border-r border-[#C6C6C8]/50 cursor-pointer active:bg-gray-50 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-[#34C759]/10 flex items-center justify-center text-xl">🎓</div>
+                            <span class="text-[15px] font-medium text-ios-primary">本市校招</span>
+                        </div>
+                        <div class="flex-1 p-4 flex flex-col items-center justify-center gap-2 border-r border-[#C6C6C8]/50 cursor-pointer active:bg-gray-50 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-[#FF9500]/10 flex items-center justify-center text-xl">🎓</div>
+                            <span class="text-[15px] font-medium text-ios-primary">省内校招</span>
+                        </div>
+                        <div class="flex-1 p-4 flex flex-col items-center justify-center gap-2 cursor-pointer active:bg-gray-50 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-[#AF52DE]/10 flex items-center justify-center text-xl">X</div>
+                            <span class="text-[15px] font-medium text-ios-primary">X就业</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enterprise Services -->
+            <div class="px-5 pb-4">
+                <h2 class="text-[20px] font-semibold text-ios-primary mb-4">企业服务</h2>
+                <div class="bg-ios-card ios-rounded-lg ios-shadow p-5">
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="service-item cursor-pointer active:opacity-70 transition-opacity">
+                            <div class="service-icon bg-[#007AFF]/10">🎯</div>
+                            <span class="text-[13px] text-ios-primary">猎头</span>
+                        </div>
+                        <div class="service-item cursor-pointer active:opacity-70 transition-opacity">
+                            <div class="service-icon bg-[#34C759]/10">🔐</div>
+                            <span class="text-[13px] text-ios-primary">背调</span>
+                        </div>
+                        <div class="service-item cursor-pointer active:opacity-70 transition-opacity">
+                            <div class="service-icon bg-[#FF9500]/10">📊</div>
+                            <span class="text-[13px] text-ios-primary">测评</span>
+                        </div>
+                        <div class="service-item cursor-pointer active:opacity-70 transition-opacity">
+                            <div class="service-icon bg-[#AF52DE]/10">🤝</div>
+                            <span class="text-[13px] text-ios-primary">委托招聘</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommended Jobs -->
+            <div class="px-5 pb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-[20px] font-semibold text-ios-primary">推荐职位</h2>
+                    <span class="text-[15px] text-ios-blue cursor-pointer">查看更多</span>
+                </div>
+                
+                <!-- Job Card 1 -->
+                <div class="bg-ios-card ios-rounded-lg ios-shadow p-4 mb-3 cursor-pointer active:scale-[0.99] transition-transform">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="text-[17px] font-semibold text-ios-primary mb-1">高级前端工程师</h3>
+                            <p class="text-[15px] text-ios-secondary">某知名互联网公司 · 北京</p>
+                        </div>
+                        <span class="text-[17px] font-semibold text-[#FF3B30]">25-40K</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">3-5年</span>
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">本科</span>
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">React</span>
+                    </div>
+                    <div class="ios-hairline mb-3"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold">A</div>
+                        <span class="text-[13px] text-ios-secondary">阿里科技</span>
+                        <span class="text-[12px] text-ios-tertiary ml-auto">2小时前</span>
+                    </div>
+                </div>
+                
+                <!-- Job Card 2 -->
+                <div class="bg-ios-card ios-rounded-lg ios-shadow p-4 mb-3 cursor-pointer active:scale-[0.99] transition-transform">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="text-[17px] font-semibold text-ios-primary mb-1">产品经理</h3>
+                            <p class="text-[15px] text-ios-secondary">某独角兽企业 · 上海</p>
+                        </div>
+                        <span class="text-[17px] font-semibold text-[#FF3B30]">30-50K</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">5-10年</span>
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">本科</span>
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">B端产品</span>
+                    </div>
+                    <div class="ios-hairline mb-3"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold">B</div>
+                        <span class="text-[13px] text-ios-secondary">字节跳动</span>
+                        <span class="text-[12px] text-ios-tertiary ml-auto">5小时前</span>
+                    </div>
+                </div>
+                
+                <!-- Job Card 3 -->
+                <div class="bg-ios-card ios-rounded-lg ios-shadow p-4 cursor-pointer active:scale-[0.99] transition-transform">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="text-[17px] font-semibold text-ios-primary mb-1">UI设计师</h3>
+                            <p class="text-[15px] text-ios-secondary">某上市企业 · 深圳</p>
+                        </div>
+                        <span class="text-[17px] font-semibold text-[#FF3B30]">20-35K</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">3-5年</span>
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">本科</span>
+                        <span class="px-2.5 py-1 bg-[#F2F2F7] rounded text-[12px] text-ios-secondary">Figma</span>
+                    </div>
+                    <div class="ios-hairline mb-3"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-xs font-bold">T</div>
+                        <span class="text-[13px] text-ios-secondary">腾讯科技</span>
+                        <span class="text-[12px] text-ios-tertiary ml-auto">昨天</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Safe Area Spacer -->
+            <div class="h-4"></div>
+        </div>
+        
+        <!-- Tab Bar -->
+        <div class="tab-bar flex items-center justify-around px-5">
+            <div class="tab-item active">
+                <svg class="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.1L2 9.5V22h8v-7h4v7h8V9.5L12 2.1z"/>
+                </svg>
+                <span class="tab-label text-[10px]">首页</span>
+            </div>
+            <div class="tab-item">
+                <svg class="tab-icon text-[#8E8E93]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <span class="tab-label text-[10px] text-[#8E8E93]">发现</span>
+            </div>
+            <div class="tab-item">
+                <svg class="tab-icon text-[#8E8E93]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span class="tab-label text-[10px] text-[#8E8E93]">消息</span>
+            </div>
+            <div class="tab-item">
+                <svg class="tab-icon text-[#8E8E93]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span class="tab-label text-[10px] text-[#8E8E93]">我的</span>
+            </div>
+        </div>
+        
+        <!-- Home Indicator -->
+        <div class="absolute bottom-[8px] left-1/2 transform -translate-x-1/2 w-[134px] h-[5px] bg-black rounded-full"></div>
+    </div>
+    
+</body>
+</html>

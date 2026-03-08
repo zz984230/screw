@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Hi就业 - 招聘App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ios: {
+                            bg: '#000000',
+                            group: '#1C1C1E',
+                            group2: '#2C2C2E',
+                            blue: '#0A84FF',
+                            cyan: '#64D2FF',
+                            purple: '#BF5AF2',
+                            text: '#FFFFFF',
+                            text2: '#EBEBF5',
+                            text3: '#8E8E93',
+                            separator: '#38383A',
+                            green: '#30D158',
+                            orange: '#FF9F0A',
+                            pink: '#FF375F',
+                        }
+                    },
+                    fontFamily: {
+                        sf: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'ios': '10px',
+                        'ios-lg': '16px',
+                        'ios-sm': '8px',
+                    },
+                    backdropBlur: {
+                        'ios': '20px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #000000;
+        }
+        
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Continuous rounded corners */
+        .rounded-ios {
+            border-radius: 10px;
+        }
+        .rounded-ios-lg {
+            border-radius: 16px;
+        }
+        .rounded-ios-sm {
+            border-radius: 8px;
+        }
+        
+        /* Glass effect */
+        .glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(30, 30, 30, 0.7);
+        }
+        
+        /* Segmented control */
+        .segmented-control {
+            background-color: #2C2C2E;
+            padding: 2px;
+        }
+        
+        .segment-item {
+            transition: all 0.2s ease;
+        }
+        
+        .segment-item.active {
+            background-color: #636366;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Tab bar glass */
+        .tab-glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(0, 0, 0, 0.75);
+            border-top: 0.5px solid #38383A;
+        }
+        
+        /* Gradient border effect for cards */
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #1C1C1E 0%, #2C2C2E 100%);
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(100, 210, 255, 0.3), rgba(191, 90, 242, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        /* List group styling */
+        .list-group {
+            background-color: #1C1C1E;
+        }
+        
+        .list-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 16px;
+            right: 0;
+            height: 0.5px;
+            background-color: #38383A;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Safe area handling */
+        .safe-top {
+            padding-top: env(safe-area-inset-top);
+        }
+        
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Press effect */
+        .press-effect:active {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-ios-bg text-ios-text min-h-screen">
+    <!-- Status Bar (Dynamic Island area) -->
+    <div class="h-[47px] bg-ios-bg fixed top-0 left-0 right-0 z-50"></div>
+    
+    <!-- Navigation Header -->
+    <header class="fixed top-[47px] left-0 right-0 z-40 glass">
+        <div class="h-[44px] flex items-center justify-between px-5">
+            <!-- Brand -->
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-gradient-to-br from-ios-cyan to-ios-purple rounded-ios-sm flex items-center justify-center">
+                    <span class="text-white text-xs font-semibold">Hi</span>
+                </div>
+                <span class="text-ios-text font-semibold text-[17px]">Hi就业</span>
+            </div>
+            
+            <!-- Segmented Control -->
+            <div class="segmented-control rounded-ios flex">
+                <button class="segment-item active px-4 py-1 rounded-ios text-[13px] font-medium text-ios-text">招聘</button>
+                <button class="segment-item px-4 py-1 rounded-ios text-[13px] font-medium text-ios-text3">用工</button>
+            </div>
+            
+            <!-- Message Icon -->
+            <button class="press-effect w-8 h-8 flex items-center justify-center">
+                <svg class="w-[22px] h-[22px] text-ios-cyan" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                    <circle cx="12" cy="9" r="1.5" fill="#000"/>
+                    <circle cx="7.5" cy="9" r="1.5" fill="#000"/>
+                    <circle cx="16.5" cy="9" r="1.5" fill="#000"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="pt-[91px] pb-[100px]">
+        <!-- Search Section -->
+        <section class="px-5 mb-4">
+            <div class="bg-ios-group rounded-ios flex items-center px-4 h-[36px]">
+                <svg class="w-4 h-4 text-ios-text3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <span class="text-ios-text3 text-[17px]">搜索职位、公司</span>
+            </div>
+        </section>
+        
+        <!-- Quick Navigation -->
+        <section class="px-5 mb-6">
+            <div class="bg-ios-group rounded-ios p-4">
+                <div class="flex justify-between items-center">
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-12 h-12 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-ios-blue" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">招聘</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-12 h-12 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-ios-orange" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">考试</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-12 h-12 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-ios-purple" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">猎头</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-12 h-12 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-ios-green" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">背调</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-12 h-12 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-ios-pink" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">测评</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- AI Features -->
+        <section class="px-5 mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-ios-text font-semibold text-[20px]">AI 智能服务</h2>
+                <a href="#" class="text-ios-blue text-[15px] press-effect">全部</a>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Wishing Tree -->
+                <div class="gradient-border rounded-ios-lg p-4 press-effect">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-ios bg-gradient-to-br from-ios-cyan/30 to-ios-blue/30 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-ios-cyan" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 22h20L12 2zm0 3.5L18.5 20h-13L12 5.5z"/>
+                                <path d="M12 10l-2 4h4l-2-4z" fill="#000"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[15px]">许愿树</h3>
+                            <p class="text-ios-text3 text-[11px]">说出你的期望</p>
+                        </div>
+                    </div>
+                    <p class="text-ios-text2 text-[13px] leading-relaxed">AI帮你精准匹配理想职位</p>
+                </div>
+                
+                <!-- AI Resume -->
+                <div class="gradient-border rounded-ios-lg p-4 press-effect">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-ios bg-gradient-to-br from-ios-purple/30 to-ios-pink/30 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-ios-purple" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[15px]">AI简历问诊</h3>
+                            <p class="text-ios-text3 text-[11px]">专业诊断优化</p>
+                        </div>
+                    </div>
+                    <p class="text-ios-text2 text-[13px] leading-relaxed">智能分析简历问题</p>
+                </div>
+                
+                <!-- AI Read Job -->
+                <div class="gradient-border rounded-ios-lg p-4 press-effect">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-ios bg-gradient-to-br from-ios-green/30 to-ios-cyan/30 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-ios-green" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[15px]">AI读岗</h3>
+                            <p class="text-ios-text3 text-[11px]">深度解析JD</p>
+                        </div>
+                    </div>
+                    <p class="text-ios-text2 text-[13px] leading-relaxed">AI解读岗位核心要求</p>
+                </div>
+                
+                <!-- AI Refine -->
+                <div class="gradient-border rounded-ios-lg p-4 press-effect">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-ios bg-gradient-to-br from-ios-orange/30 to-ios-purple/30 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-ios-orange" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[15px]">AI精修</h3>
+                            <p class="text-ios-text3 text-[11px]">一键优化提升</p>
+                        </div>
+                    </div>
+                    <p class="text-ios-text2 text-[13px] leading-relaxed">智能优化简历表述</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recruitment Types -->
+        <section class="px-5 mb-6">
+            <h2 class="text-ios-text font-semibold text-[20px] mb-3">招聘类型</h2>
+            <div class="list-group rounded-ios overflow-hidden">
+                <a href="#" class="list-item relative flex items-center justify-between p-4 press-effect">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-ios-sm bg-ios-blue/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-ios-blue" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-ios-text text-[17px]">社会招聘</span>
+                            <p class="text-ios-text3 text-[13px]">热门岗位等你来</p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </a>
+                <a href="#" class="list-item relative flex items-center justify-between p-4 press-effect">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-ios-sm bg-ios-purple/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-ios-purple" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-ios-text text-[17px]">本市校招</span>
+                            <p class="text-ios-text3 text-[13px]">本地校园招聘信息</p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </a>
+                <a href="#" class="list-item relative flex items-center justify-between p-4 press-effect">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-ios-sm bg-ios-cyan/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-ios-cyan" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-ios-text text-[17px]">省内校招</span>
+                            <p class="text-ios-text3 text-[13px]">省内高校招聘会</p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </a>
+                <a href="#" class="list-item relative flex items-center justify-between p-4 press-effect">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-ios-sm bg-ios-green/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-ios-green" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-ios-text text-[17px]">X就业</span>
+                            <p class="text-ios-text3 text-[13px]">特殊群体就业服务</p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Enterprise Services -->
+        <section class="px-5 mb-6">
+            <h2 class="text-ios-text font-semibold text-[20px] mb-3">企业服务</h2>
+            <div class="bg-ios-group rounded-ios p-4">
+                <div class="grid grid-cols-4 gap-4">
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-14 h-14 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-ios-purple" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">猎头</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-14 h-14 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-ios-green" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">背调</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-14 h-14 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-ios-pink" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">测评</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 press-effect">
+                        <div class="w-14 h-14 rounded-ios bg-ios-group2 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-ios-blue" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-ios-text2 text-[13px]">委托</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Featured Jobs -->
+        <section class="px-5 mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-ios-text font-semibold text-[20px]">精选职位</h2>
+                <a href="#" class="text-ios-blue text-[15px] press-effect">更多</a>
+            </div>
+            <div class="space-y-3">
+                <div class="bg-ios-group rounded-ios p-4 press-effect">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[17px]">高级前端工程师</h3>
+                            <p class="text-ios-text3 text-[15px]">阿里巴巴 · 杭州</p>
+                        </div>
+                        <span class="text-ios-green font-semibold text-[17px]">25-40K</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-3">
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">3-5年</span>
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">本科</span>
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">React</span>
+                    </div>
+                </div>
+                
+                <div class="bg-ios-group rounded-ios p-4 press-effect">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[17px]">产品经理</h3>
+                            <p class="text-ios-text3 text-[15px]">字节跳动 · 北京</p>
+                        </div>
+                        <span class="text-ios-green font-semibold text-[17px]">30-50K</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-3">
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">5-10年</span>
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">本科</span>
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">B端</span>
+                    </div>
+                </div>
+                
+                <div class="bg-ios-group rounded-ios p-4 press-effect">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-ios-text font-semibold text-[17px]">UI设计师</h3>
+                            <p class="text-ios-text3 text-[15px]">腾讯 · 深圳</p>
+                        </div>
+                        <span class="text-ios-green font-semibold text-[17px]">20-35K</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-3">
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">3-5年</span>
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">本科</span>
+                        <span class="px-2 py-1 bg-ios-group2 rounded text-ios-text3 text-[13px]">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Tab Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 tab-glass safe-bottom z-50">
+        <div class="h-[49px] flex items-center justify-around px-2">
+            <a href="#" class="flex flex-col items-center justify-center w-[64px] h-full press-effect">
+                <svg class="w-[24px] h-[24px] text-ios-blue" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span class="text-[10px] text-ios-blue mt-0.5">首页</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-[64px] h-full press-effect">
+                <svg class="w-[24px] h-[24px] text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span class="text-[10px] text-ios-text3 mt-0.5">职位</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-[64px] h-full press-effect">
+                <svg class="w-[24px] h-[24px] text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                </svg>
+                <span class="text-[10px] text-ios-text3 mt-0.5">公司</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-[64px] h-full press-effect">
+                <svg class="w-[24px] h-[24px] text-ios-text3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span class="text-[10px] text-ios-text3 mt-0.5">我的</span>
+            </a>
+        </div>
+        <!-- Home Indicator -->
+        <div class="h-[34px] flex items-center justify-center">
+            <div class="w-[134px] h-[5px] bg-ios-text rounded-full opacity-30"></div>
+        </div>
+    </nav>
+</body>
+</html>

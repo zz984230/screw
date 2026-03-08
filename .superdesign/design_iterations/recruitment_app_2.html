@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hi就业 - 智能招聘平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #F5F5F7;
+        }
+        
+        .ios-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* iOS Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Diamond Shape */
+        .diamond-btn {
+            width: 56px;
+            height: 56px;
+            transform: rotate(45deg);
+            background: linear-gradient(135deg, #F5F5F7 0%, #E5E5EA 100%);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .diamond-btn:hover {
+            transform: rotate(45deg) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+        
+        .diamond-text {
+            transform: rotate(-45deg);
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            color: #1C1C1E;
+            white-space: nowrap;
+        }
+        
+        /* AI Feature Cards */
+        .ai-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAFAFA 100%);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .ai-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Accent Gradient */
+        .accent-gradient {
+            background: linear-gradient(135deg, #5856D6 0%, #AF52DE 50%, #FF2D55 100%);
+        }
+        
+        .accent-text {
+            background: linear-gradient(135deg, #5856D6 0%, #AF52DE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Capsule Navigation */
+        .capsule-nav {
+            background: rgba(242, 242, 247, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        
+        .capsule-item {
+            font-size: 12px;
+            font-weight: 500;
+            color: #8E8E93;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+        }
+        
+        .capsule-item.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Tab Switch */
+        .tab-item {
+            font-size: 14px;
+            font-weight: 500;
+            color: #8E8E93;
+            padding: 4px 0;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        
+        .tab-item.active {
+            color: #000000;
+        }
+        
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #000000;
+            border-radius: 1px;
+        }
+        
+        /* Subtle Animation */
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .animate-subtle-float {
+            animation: subtleFloat 4s ease-in-out infinite;
+        }
+        
+        .animate-subtle-float-delay {
+            animation: subtleFloat 4s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+        
+        .animate-subtle-float-delay-2 {
+            animation: subtleFloat 4s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        
+        .animate-subtle-float-delay-3 {
+            animation: subtleFloat 4s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+        
+        /* Icon Backgrounds */
+        .icon-bg-primary {
+            background: linear-gradient(135deg, #5856D6 0%, #7B78E8 100%);
+        }
+        
+        .icon-bg-secondary {
+            background: linear-gradient(135deg, #AF52DE 0%, #C77BE8 100%);
+        }
+        
+        .icon-bg-tertiary {
+            background: linear-gradient(135deg, #FF2D55 0%, #FF6482 100%);
+        }
+        
+        .icon-bg-quaternary {
+            background: linear-gradient(135deg, #FF9500 0%, #FFBD3F 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="ios-container">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center px-6 pt-3 pb-2 text-sm font-semibold text-black">
+            <span>9:41</span>
+            <div class="flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 3C7.46 3 3.34 4.78.29 7.67c-.18.18-.29.43-.29.71 0 .28.11.53.29.71l11 11c.39.39 1.02.39 1.41 0l11-11c.18-.18.29-.43.29-.71 0-.28-.11-.53-.29-.71C20.66 4.78 16.54 3 12 3z"/>
+                </svg>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Header -->
+        <div class="glass-card sticky top-0 z-50 px-5 py-4 border-b border-gray-100/50">
+            <div class="flex items-center justify-between">
+                <!-- Brand -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl accent-gradient flex items-center justify-center shadow-lg shadow-purple-200/50">
+                        <span class="text-white text-xs font-bold">Hi</span>
+                    </div>
+                    <span class="text-lg font-semibold text-black tracking-tight">就业</span>
+                </div>
+                
+                <!-- Tabs -->
+                <div class="flex items-center gap-4">
+                    <button class="tab-item active">招聘</button>
+                    <span class="text-gray-300">|</span>
+                    <button class="tab-item">用工</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="px-4 py-6 pb-28">
+            
+            <!-- Horizontal Capsule Navigation -->
+            <div class="mb-8">
+                <div class="capsule-nav rounded-full p-1.5 flex items-center justify-between overflow-x-auto">
+                    <button class="capsule-item active flex-shrink-0">招聘</button>
+                    <button class="capsule-item flex-shrink-0">考试</button>
+                    <button class="capsule-item flex-shrink-0">猎头</button>
+                    <button class="capsule-item flex-shrink-0">背调</button>
+                    <button class="capsule-item flex-shrink-0">测评</button>
+                </div>
+            </div>
+            
+            <!-- Three Column Layout -->
+            <div class="flex items-start justify-between gap-3">
+                
+                <!-- Left Column - Diamond Buttons -->
+                <div class="flex flex-col items-center gap-4 pt-2">
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">社会招聘</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">本市校招</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">省内校招</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">X就业</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Center Column - AI Feature Cards -->
+                <div class="flex-1 flex flex-col gap-3">
+                    <!-- Card 1: 许愿树 -->
+                    <div class="ai-card rounded-2xl p-4 flex items-center gap-3 animate-subtle-float cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl icon-bg-primary flex items-center justify-center shadow-lg shadow-purple-200/50">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-semibold text-black">许愿树</h4>
+                            <p class="text-[10px] text-gray-500 mt-0.5">说出你的求职心愿</p>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Card 2: AI简历问诊 -->
+                    <div class="ai-card rounded-2xl p-4 flex items-center gap-3 animate-subtle-float-delay cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl icon-bg-secondary flex items-center justify-center shadow-lg shadow-purple-200/50">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-semibold text-black">AI简历问诊</h4>
+                            <p class="text-[10px] text-gray-500 mt-0.5">智能诊断简历问题</p>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Card 3: AI读岗 -->
+                    <div class="ai-card rounded-2xl p-4 flex items-center gap-3 animate-subtle-float-delay-2 cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl icon-bg-tertiary flex items-center justify-center shadow-lg shadow-pink-200/50">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-semibold text-black">AI读岗</h4>
+                            <p class="text-[10px] text-gray-500 mt-0.5">智能解读岗位要求</p>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Card 4: AI精修 -->
+                    <div class="ai-card rounded-2xl p-4 flex items-center gap-3 animate-subtle-float-delay-3 cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl icon-bg-quaternary flex items-center justify-center shadow-lg shadow-orange-200/50">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-semibold text-black">AI精修</h4>
+                            <p class="text-[10px] text-gray-500 mt-0.5">针对性提升技能</p>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Diamond Buttons -->
+                <div class="flex flex-col items-center gap-4 pt-2">
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">猎头</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">背调</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">测评</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="diamond-btn flex items-center justify-center cursor-pointer">
+                            <span class="diamond-text">委托招聘</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Tab Bar -->
+        <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[375px] glass-card border-t border-gray-200/50 px-6 py-3 pb-7">
+            <div class="flex justify-around items-center">
+                <!-- Home -->
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <svg class="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span class="text-[10px] font-medium text-black">首页</span>
+                </div>
+                
+                <!-- Discover -->
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
+                    </svg>
+                    <span class="text-[10px] font-medium text-gray-400">发现</span>
+                </div>
+                
+                <!-- Messages -->
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                    </svg>
+                    <span class="text-[10px] font-medium text-gray-400">消息</span>
+                </div>
+                
+                <!-- Profile -->
+                <div class="flex flex-col items-center gap-1 cursor-pointer">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span class="text-[10px] font-medium text-gray-400">我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

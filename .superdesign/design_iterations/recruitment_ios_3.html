@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hi就业 - iOS版</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* iOS System Font Stack */
+    * {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Hide scrollbar */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* iOS Dynamic Island Area */
+    .dynamic-island {
+      height: 47px;
+    }
+    
+    /* iOS Safe Area Bottom */
+    .safe-area-bottom {
+      height: 34px;
+    }
+    
+    /* iOS Card Shadow */
+    .ios-card {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* iOS Tab Bar Blur */
+    .tab-bar-blur {
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      background: rgba(255, 255, 255, 0.85);
+    }
+    
+    /* Gradient for AI Cards */
+    .gradient-wish {
+      background: linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #AF52DE 100%);
+    }
+    
+    .gradient-resume {
+      background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+    }
+    
+    .gradient-job {
+      background: linear-gradient(135deg, #FF9500 0%, #FF6B00 100%);
+    }
+    
+    .gradient-refine {
+      background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+    }
+    
+    /* iOS Toggle Animation */
+    .tab-indicator {
+      transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    
+    /* Scroll Snap */
+    .snap-x-mandatory {
+      scroll-snap-type: x mandatory;
+    }
+    
+    .snap-center {
+      scroll-snap-align: center;
+    }
+  </style>
+</head>
+<body class="bg-[#F2F2F7] text-black antialiased">
+  
+  <!-- iOS Device Container -->
+  <div class="mx-auto w-[390px] min-h-screen bg-[#F2F2F7] relative shadow-2xl overflow-hidden">
+    
+    <!-- Status Bar (Dynamic Island) -->
+    <div class="dynamic-island w-full bg-[#F2F2F7] flex items-center justify-between px-[29px] pt-[12px] pb-[8px] fixed top-0 z-50" style="width: 390px;">
+      <span class="text-[15px] font-semibold text-black tracking-[-0.01em]">9:41</span>
+      <div class="w-[126px] h-[37px] bg-black rounded-[20px]"></div>
+      <div class="flex items-center gap-[4px]">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" class="text-black">
+          <path d="M1 8.5C1 9.32843 1.67157 10 2.5 10H3.5C4.32843 10 5 9.32843 5 8.5V3.5C5 2.67157 4.32843 2 3.5 2H2.5C1.67157 2 1 2.67157 1 3.5V8.5Z" fill="currentColor"/>
+          <path d="M7 8.5C7 9.32843 7.67157 10 8.5 10H9.5C10.3284 10 11 9.32843 11 8.5V3.5C11 2.67157 10.3284 2 9.5 2H8.5C7.67157 2 7 2.67157 7 3.5V8.5Z" fill="currentColor"/>
+          <path d="M13 8.5C13 9.32843 13.6716 10 14.5 10H15.5C16.3284 10 17 9.32843 17 8.5V3.5C17 2.67157 16.3284 2 15.5 2H14.5C13.6716 2 13 2.67157 13 3.5V8.5Z" fill="currentColor" fill-opacity="0.35"/>
+        </svg>
+        <svg width="26" height="12" viewBox="0 0 26 12" fill="none" class="text-black">
+          <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="currentColor"/>
+          <path d="M23 4V8C24.1046 8 25 7.10457 25 6C25 4.89543 24.1046 4 23 4Z" fill="currentColor"/>
+          <rect x="2" y="2" width="18" height="8" rx="1.5" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Main Content Scroll Area -->
+    <div class="pt-[47px] pb-[83px] overflow-y-auto" style="height: calc(100vh);">
+      
+      <!-- Header: Brand + Tab Switch -->
+      <div class="px-[20px] pt-[12px] pb-[16px] bg-[#F2F2F7]">
+        <div class="flex items-center justify-between mb-[16px]">
+          <h1 class="text-[28px] font-semibold text-black tracking-[-0.02em]">Hi就业</h1>
+          <button class="w-[32px] h-[32px] rounded-[10px] bg-white flex items-center justify-center ios-card">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 2C6.13401 2 3 5.13401 3 9C3 11.3042 4.14841 13.3484 5.99927 14.6468L5.42857 17L8.14614 15.6453C8.74483 15.8775 9.35781 16 10 16C13.866 16 17 12.866 17 9C17 5.13401 13.866 2 10 2Z" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Tab Switcher -->
+        <div class="bg-[#E5E5EA] rounded-[10px] p-[2px] flex relative h-[36px]">
+          <div class="absolute w-[calc(50%-2px)] h-[32px] bg-white rounded-[8px] shadow-sm tab-indicator" style="left: 2px; top: 2px;"></div>
+          <button class="flex-1 h-[32px] rounded-[8px] text-[15px] font-medium text-black z-10 relative">招聘</button>
+          <button class="flex-1 h-[32px] rounded-[8px] text-[15px] font-medium text-[#8E8E93] z-10 relative">用工</button>
+        </div>
+      </div>
+      
+      <!-- Navigation Icons -->
+      <div class="px-[20px] pb-[20px]">
+        <div class="bg-white rounded-[22px] p-[16px] ios-card">
+          <div class="flex items-center justify-between">
+            <button class="flex flex-col items-center gap-[8px] w-[64px]">
+              <div class="w-[48px] h-[48px] rounded-[14px] bg-[#007AFF] bg-opacity-[0.12] flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="text-[13px] text-[#3C3C43] font-medium">招聘</span>
+            </button>
+            <button class="flex flex-col items-center gap-[8px] w-[64px]">
+              <div class="w-[48px] h-[48px] rounded-[14px] bg-[#FF9500] bg-opacity-[0.12] flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9.5 9.5C9.5 8.67157 10.1716 8 11 8H13C13.8284 8 14.5 8.67157 14.5 9.5C14.5 10.3284 13.8284 11 13 11H11C10.1716 11 9.5 11.6716 9.5 12.5V15" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 17.5V17.51" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="text-[13px] text-[#3C3C43] font-medium">考试</span>
+            </button>
+            <button class="flex flex-col items-center gap-[8px] w-[64px]">
+              <div class="w-[48px] h-[48px] rounded-[14px] bg-[#AF52DE] bg-opacity-[0.12] flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="4" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M4 20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="18" cy="7" r="2" stroke="#AF52DE" stroke-width="1.5"/>
+                  <path d="M19 10L21 12" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-[13px] text-[#3C3C43] font-medium">猎头</span>
+            </button>
+            <button class="flex flex-col items-center gap-[8px] w-[64px]">
+              <div class="w-[48px] h-[48px] rounded-[14px] bg-[#34C759] bg-opacity-[0.12] flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 12L11 14L15 10" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="text-[13px] text-[#3C3C43] font-medium">背调</span>
+            </button>
+            <button class="flex flex-col items-center gap-[8px] w-[64px]">
+              <div class="w-[48px] h-[48px] rounded-[14px] bg-[#007AFF] bg-opacity-[0.12] flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="text-[13px] text-[#3C3C43] font-medium">测评</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AI Features Section (iOS Widget Style) -->
+      <div class="px-[20px] pb-[20px]">
+        <h2 class="text-[20px] font-semibold text-black mb-[12px] tracking-[-0.01em]">AI智能助手</h2>
+        
+        <!-- Main AI Card: Wish Tree -->
+        <div class="gradient-wish rounded-[22px] p-[20px] ios-card mb-[12px] relative overflow-hidden">
+          <!-- Decorative Circles -->
+          <div class="absolute -top-[40px] -right-[40px] w-[120px] h-[120px] bg-white opacity-10 rounded-full"></div>
+          <div class="absolute -bottom-[20px] -left-[20px] w-[80px] h-[80px] bg-white opacity-10 rounded-full"></div>
+          
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-[12px]">
+              <div class="flex items-center gap-[12px]">
+                <div class="w-[44px] h-[44px] rounded-[12px] bg-white bg-opacity-20 flex items-center justify-center backdrop-blur-sm">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3L14.5 8.5L20 9.5L16 13.5L17 19L12 16.5L7 19L8 13.5L4 9.5L9.5 8.5L12 3Z" fill="white"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-[18px] font-semibold text-white">许愿树</h3>
+                  <p class="text-[13px] text-white opacity-80">说出你的求职心愿</p>
+                </div>
+              </div>
+              <div class="w-[32px] h-[32px] rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 4L10 8L6 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <p class="text-[15px] text-white opacity-90 leading-[1.5]">AI帮你匹配最适合的职位，一键直达心仪工作</p>
+          </div>
+        </div>
+        
+        <!-- AI Sub Cards Grid -->
+        <div class="grid grid-cols-3 gap-[10px]">
+          <button class="gradient-resume rounded-[16px] p-[14px] ios-card aspect-square flex flex-col items-center justify-center gap-[10px]">
+            <div class="w-[40px] h-[40px] rounded-[10px] bg-white bg-opacity-20 flex items-center justify-center backdrop-blur-sm">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="white"/>
+                <path d="M14 2V8H20" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 13H8" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 17H8" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 9H9H8" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="text-[13px] font-medium text-white">AI简历问诊</span>
+          </button>
+          
+          <button class="gradient-job rounded-[16px] p-[14px] ios-card aspect-square flex flex-col items-center justify-center gap-[10px]">
+            <div class="w-[40px] h-[40px] rounded-[10px] bg-white bg-opacity-20 flex items-center justify-center backdrop-blur-sm">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" fill="white"/>
+                <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="#FF9500" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <span class="text-[13px] font-medium text-white">AI读岗</span>
+          </button>
+          
+          <button class="gradient-refine rounded-[16px] p-[14px] ios-card aspect-square flex flex-col items-center justify-center gap-[10px]">
+            <div class="w-[40px] h-[40px] rounded-[10px] bg-white bg-opacity-20 flex items-center justify-center backdrop-blur-sm">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M12 20H21" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.5 3.5C16.8978 3.10217 17.4374 2.87868 18 2.87868C18.2786 2.87868 18.5544 2.93355 18.8118 3.04015C19.0692 3.14676 19.303 3.30301 19.5 3.5C19.697 3.69698 19.8532 3.93083 19.9598 4.18822C20.0665 4.44561 20.1213 4.72142 20.1213 5C20.1213 5.27857 20.0665 5.55439 19.9598 5.81178C19.8532 6.06916 19.697 6.30301 19.5 6.5L7 19L3 20L4 16L16.5 3.5Z" fill="white"/>
+              </svg>
+            </div>
+            <span class="text-[13px] font-medium text-white">AI精修</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Recruitment Types -->
+      <div class="px-[20px] pb-[20px]">
+        <h2 class="text-[20px] font-semibold text-black mb-[12px] tracking-[-0.01em]">招聘类型</h2>
+        <div class="flex gap-[10px] overflow-x-auto snap-x-mandatory pb-[4px]" style="scrollbar-width: none;">
+          <button class="flex-shrink-0 snap-center bg-white rounded-[16px] p-[16px] ios-card w-[calc(50%-5px)] flex flex-col items-center gap-[10px]">
+            <div class="w-[48px] h-[48px] rounded-[14px] bg-[#007AFF] bg-opacity-[0.1] flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4" stroke="#007AFF" stroke-width="1.5"/>
+                <path d="M4 20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="text-[15px] font-medium text-black">社会招聘</span>
+          </button>
+          <button class="flex-shrink-0 snap-center bg-white rounded-[16px] p-[16px] ios-card w-[calc(50%-5px)] flex flex-col items-center gap-[10px]">
+            <div class="w-[48px] h-[48px] rounded-[14px] bg-[#34C759] bg-opacity-[0.1] flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3Z" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 13.18V17.18L12 21L19 17.18V13.18" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="text-[15px] font-medium text-black">本市校招</span>
+          </button>
+          <button class="flex-shrink-0 snap-center bg-white rounded-[16px] p-[16px] ios-card w-[calc(50%-5px)] flex flex-col items-center gap-[10px]">
+            <div class="w-[48px] h-[48px] rounded-[14px] bg-[#AF52DE] bg-opacity-[0.1] flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="text-[15px] font-medium text-black">省内校招</span>
+          </button>
+          <button class="flex-shrink-0 snap-center bg-white rounded-[16px] p-[16px] ios-card w-[calc(50%-5px)] flex flex-col items-center gap-[10px]">
+            <div class="w-[48px] h-[48px] rounded-[14px] bg-[#FF9500] bg-opacity-[0.1] flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#FF9500" stroke-width="1.5"/>
+                <path d="M12 6V12L16 14" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="text-[15px] font-medium text-black">X就业</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Enterprise Services -->
+      <div class="px-[20px] pb-[20px]">
+        <div class="flex items-center justify-between mb-[12px]">
+          <h2 class="text-[20px] font-semibold text-black tracking-[-0.01em]">企业服务</h2>
+          <button class="text-[15px] text-[#007AFF] font-medium">查看全部</button>
+        </div>
+        <div class="bg-white rounded-[22px] p-[16px] ios-card">
+          <div class="grid grid-cols-2 gap-[12px]">
+            <button class="flex items-center gap-[12px] p-[12px] rounded-[12px] bg-[#F2F2F7] hover:bg-[#E5E5EA] transition-colors">
+              <div class="w-[40px] h-[40px] rounded-[10px] bg-[#AF52DE] bg-opacity-[0.12] flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="4" stroke="#AF52DE" stroke-width="1.5"/>
+                  <path d="M4 20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="18" cy="7" r="2" stroke="#AF52DE" stroke-width="1.5"/>
+                  <path d="M19 10L21 12" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="text-left">
+                <div class="text-[15px] font-medium text-black">猎头服务</div>
+                <div class="text-[12px] text-[#8E8E93]">高端人才</div>
+              </div>
+            </button>
+            <button class="flex items-center gap-[12px] p-[12px] rounded-[12px] bg-[#F2F2F7] hover:bg-[#E5E5EA] transition-colors">
+              <div class="w-[40px] h-[40px] rounded-[10px] bg-[#34C759] bg-opacity-[0.12] flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 12L11 14L15 10" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="text-left">
+                <div class="text-[15px] font-medium text-black">背景调查</div>
+                <div class="text-[12px] text-[#8E8E93]">安全可信</div>
+              </div>
+            </button>
+            <button class="flex items-center gap-[12px] p-[12px] rounded-[12px] bg-[#F2F2F7] hover:bg-[#E5E5EA] transition-colors">
+              <div class="w-[40px] h-[40px] rounded-[10px] bg-[#007AFF] bg-opacity-[0.12] flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="text-left">
+                <div class="text-[15px] font-medium text-black">人才测评</div>
+                <div class="text-[12px] text-[#8E8E93]">精准评估</div>
+              </div>
+            </button>
+            <button class="flex items-center gap-[12px] p-[12px] rounded-[12px] bg-[#F2F2F7] hover:bg-[#E5E5EA] transition-colors">
+              <div class="w-[40px] h-[40px] rounded-[10px] bg-[#FF9500] bg-opacity-[0.12] flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="9" cy="7" r="4" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45768C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="text-left">
+                <div class="text-[15px] font-medium text-black">委托招聘</div>
+                <div class="text-[12px] text-[#8E8E93]">高效省心</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bottom Spacer -->
+      <div class="h-[20px]"></div>
+      
+    </div>
+    
+    <!-- iOS Tab Bar -->
+    <div class="absolute bottom-0 left-0 right-0 tab-bar-blur border-t border-[#C6C6C8]" style="width: 390px;">
+      <div class="flex items-center justify-around px-[8px] pt-[8px] pb-[4px]">
+        <button class="flex flex-col items-center gap-[4px] w-[64px]">
+          <div class="w-[28px] h-[28px] flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" fill="#007AFF" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 22V12H15V22" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="text-[10px] font-medium text-[#007AFF]">首页</span>
+        </button>
+        <button class="flex flex-col items-center gap-[4px] w-[64px]">
+          <div class="w-[28px] h-[28px] flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="#8E8E93" stroke-width="1.5"/>
+              <path d="M21 21L16.65 16.65" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="text-[10px] font-medium text-[#8E8E93]">职位</span>
+        </button>
+        <button class="flex flex-col items-center gap-[4px] w-[64px]">
+          <div class="w-[28px] h-[28px] flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z" stroke="#8E8E93" stroke-width="1.5"/>
+              <path d="M22 6L12 13L2 6" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="text-[10px] font-medium text-[#8E8E93]">消息</span>
+        </button>
+        <button class="flex flex-col items-center gap-[4px] w-[64px]">
+          <div class="w-[28px] h-[28px] flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" stroke="#8E8E93" stroke-width="1.5"/>
+              <path d="M19.4 15C19.7 14.3 19.9 13.6 19.9 12.9C19.9 12.2 19.7 11.5 19.4 10.8L21.5 9.1C21.7 8.9 21.8 8.6 21.6 8.4L19.6 5.1C19.5 4.9 19.2 4.8 18.9 4.9L16.3 5.9C15.3 5.2 14.2 4.7 13 4.4V1.8C13 1.5 12.8 1.3 12.5 1.3H8.5C8.2 1.3 8 1.5 8 1.8V4.4C6.8 4.7 5.7 5.2 4.7 5.9L2.1 4.9C1.8 4.8 1.5 4.9 1.4 5.1L-0.6 8.4C-0.8 8.6 -0.7 8.9 -0.5 9.1L1.6 10.8C1.3 11.5 1.1 12.2 1.1 12.9C1.1 13.6 1.3 14.3 1.6 15L-0.5 16.7C-0.7 16.9 -0.8 17.2 -0.6 17.4L1.4 20.7C1.5 20.9 1.8 21 2.1 20.9L4.7 19.9C5.7 20.6 6.8 21.1 8 21.4V24C8 24.3 8.2 24.5 8.5 24.5H12.5C12.8 24.5 13 24.3 13 24V21.4C14.2 21.1 15.3 20.6 16.3 19.9L18.9 20.9C19.2 21 19.5 20.9 19.6 20.7L21.6 17.4C21.8 17.2 21.7 16.9 21.5 16.7L19.4 15Z" transform="translate(1, -0.5)" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="text-[10px] font-medium text-[#8E8E93]">我的</span>
+        </button>
+      </div>
+      <div class="safe-area-bottom"></div>
+    </div>
+    
+  </div>
+  
+</body>
+</html>

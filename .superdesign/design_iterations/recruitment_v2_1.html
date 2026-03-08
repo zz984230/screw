@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi就业 - 智能招聘平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* iOS Scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        /* iOS Safe Area */
+        .safe-top {
+            padding-top: env(safe-area-inset-top, 44px);
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+        
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+        
+        /* iOS Button Press Effect */
+        .ios-press:active {
+            transform: scale(0.96);
+            transition: transform 0.1s ease;
+        }
+        
+        /* Gradient Backgrounds */
+        .gradient-ai {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-warm {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .gradient-ocean {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .gradient-sun {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        /* Smooth transitions */
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Card hover lift */
+        .card-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Category pill active state */
+        .category-pill.active {
+            background: #000;
+            color: #fff;
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        /* iOS Segmented Control */
+        .ios-segment {
+            background: rgba(120, 120, 128, 0.16);
+            border-radius: 8px;
+            padding: 2px;
+        }
+        
+        .ios-segment-item {
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .ios-segment-item.active {
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Service icon wrapper */
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Hide scrollbar for horizontal scroll */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-black min-h-screen">
+    <!-- Main Container - Mobile First 390px -->
+    <div class="max-w-[390px] mx-auto bg-white min-h-screen relative shadow-2xl">
+        
+        <!-- Status Bar Background -->
+        <div class="h-12 bg-white safe-top fixed top-0 left-0 right-0 z-50 max-w-[390px] mx-auto"></div>
+        
+        <!-- Header -->
+        <header class="pt-14 pb-4 px-5 bg-white sticky top-0 z-40">
+            <div class="flex items-center justify-between mb-4">
+                <!-- Brand -->
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
+                        <span class="text-white font-semibold text-sm">Hi</span>
+                    </div>
+                    <span class="text-xl font-semibold tracking-tight">就业</span>
+                </div>
+                
+                <!-- Search Icon -->
+                <button class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center ios-press">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Top Tab Switcher -->
+            <div class="ios-segment flex">
+                <button class="ios-segment-item flex-1 py-2 text-sm font-medium active">招聘</button>
+                <button class="ios-segment-item flex-1 py-2 text-sm font-medium text-gray-500">用工</button>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="px-5 pb-8">
+            
+            <!-- Category Pills - Horizontal Scroll -->
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar py-2 mb-6 animate-fade-in-up">
+                <button class="category-pill active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all">
+                    社会招聘
+                </button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap bg-gray-100 text-gray-600 transition-all">
+                    本市校招
+                </button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap bg-gray-100 text-gray-600 transition-all">
+                    省内校招
+                </button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap bg-gray-100 text-gray-600 transition-all">
+                    X就业
+                </button>
+            </div>
+            
+            <!-- AI Features Section - Hero Cards -->
+            <section class="mb-8 animate-fade-in-up delay-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">AI 智能服务</h2>
+                    <span class="text-xs text-gray-400">Powered by AI</span>
+                </div>
+                
+                <!-- AI Feature Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- 许愿树 - Large Card -->
+                    <div class="col-span-2 relative overflow-hidden rounded-2xl gradient-ai p-5 card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-white/80 text-xs font-medium bg-white/20 px-2 py-0.5 rounded-full">热门</span>
+                            </div>
+                            <h3 class="text-white text-lg font-semibold mb-1">许愿树</h3>
+                            <p class="text-white/80 text-sm">说出你的理想工作，AI帮你匹配</p>
+                        </div>
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <svg class="w-16 h-16 text-white/20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- AI简历问诊 -->
+                    <div class="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-4 card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-white font-semibold text-sm mb-1">简历问诊</h4>
+                        <p class="text-white/70 text-xs">智能诊断优化</p>
+                    </div>
+                    
+                    <!-- AI读岗 -->
+                    <div class="rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 p-4 card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-white font-semibold text-sm mb-1">AI读岗</h4>
+                        <p class="text-white/70 text-xs">智能解读职位</p>
+                    </div>
+                    
+                    <!-- AI精修 -->
+                    <div class="col-span-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 p-4 card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold mb-1">AI精修</h4>
+                                <p class="text-white/80 text-sm">一键优化简历内容，提升面试邀约率</p>
+                            </div>
+                            <svg class="w-5 h-5 text-white/60 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quick Navigation -->
+            <section class="mb-8 animate-fade-in-up delay-200">
+                <h2 class="text-lg font-semibold mb-4">快速入口</h2>
+                <div class="grid grid-cols-5 gap-2">
+                    <div class="flex flex-col items-center gap-2 cursor-pointer ios-press">
+                        <div class="service-icon bg-gray-100">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">招聘</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer ios-press">
+                        <div class="service-icon bg-gray-100">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">考试</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer ios-press">
+                        <div class="service-icon bg-gray-100">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">猎头</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer ios-press">
+                        <div class="service-icon bg-gray-100">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">背调</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer ios-press">
+                        <div class="service-icon bg-gray-100">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">测评</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Professional Services -->
+            <section class="mb-8 animate-fade-in-up delay-300">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">专业服务</h2>
+                    <button class="text-sm text-gray-400 flex items-center gap-1">
+                        全部
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-3">
+                    <!-- 猎头服务 -->
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-sm mb-0.5">猎头服务</h4>
+                            <p class="text-xs text-gray-500 truncate">高端人才精准匹配</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- 背调服务 -->
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-sm mb-0.5">背景调查</h4>
+                            <p class="text-xs text-gray-500 truncate">专业背调，用人无忧</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- 人才测评 -->
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-400 to-blue-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-sm mb-0.5">人才测评</h4>
+                            <p class="text-xs text-gray-500 truncate">科学评估，精准识人</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- 委托招聘 -->
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm card-lift smooth-transition cursor-pointer ios-press">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-sm mb-0.5">委托招聘</h4>
+                            <p class="text-xs text-gray-500 truncate">全流程招聘托管</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Hot Jobs Banner -->
+            <section class="animate-fade-in-up delay-400">
+                <div class="rounded-2xl bg-gray-900 p-5 relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="inline-block px-2 py-0.5 rounded-full bg-white/10 text-white/80 text-xs mb-2">限时热招</span>
+                        <h3 class="text-white font-semibold mb-1">高薪职位推荐</h3>
+                        <p class="text-white/60 text-sm mb-4">AI为你精选 500+ 高薪岗位</p>
+                        <button class="px-4 py-2 rounded-full bg-white text-black text-sm font-medium ios-press">
+                            立即查看
+                        </button>
+                    </div>
+                    <div class="absolute right-0 top-0 w-32 h-full opacity-20">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none">
+                            <circle cx="80" cy="20" r="40" fill="white"/>
+                            <circle cx="90" cy="80" r="30" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+        
+        <!-- Bottom Safe Area -->
+        <div class="h-8"></div>
+        
+    </div>
+    
+    <!-- Tablet & Desktop View - Responsive Expansion -->
+    <style>
+        @media (min-width: 768px) {
+            .max-w-\[390px\] {
+                max-width: 100% !important;
+            }
+            
+            .max-w-\[390px\].mx-auto {
+                max-width: 720px !important;
+            }
+            
+            /* Tablet adjustments */
+            main {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+            
+            main > section:first-child {
+                grid-column: 1 / -1;
+            }
+            
+            main > section:nth-child(4) {
+                grid-column: 1 / -1;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .max-w-\[390px\].mx-auto {
+                max-width: 960px !important;
+            }
+            
+            /* Desktop layout */
+            main {
+                grid-template-columns: 280px 1fr 280px;
+                gap: 32px;
+            }
+            
+            main > section:first-child {
+                grid-column: 2;
+                grid-row: 1 / 4;
+            }
+            
+            main > section:nth-child(2) {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            
+            main > section:nth-child(3) {
+                grid-column: 3;
+                grid-row: 1 / 3;
+            }
+            
+            main > section:nth-child(4) {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+    
+    <script>
+        // Category pill interaction
+        document.querySelectorAll('.category-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                document.querySelectorAll('.category-pill').forEach(p => {
+                    p.classList.remove('active', 'bg-black', 'text-white');
+                    p.classList.add('bg-gray-100', 'text-gray-600');
+                });
+                this.classList.add('active');
+                this.classList.remove('bg-gray-100', 'text-gray-600');
+            });
+        });
+        
+        // Segment control interaction
+        document.querySelectorAll('.ios-segment-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.ios-segment-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.classList.add('text-gray-500');
+                });
+                this.classList.add('active');
+                this.classList.remove('text-gray-500');
+            });
+        });
+    </script>
+</body>
+</html>
